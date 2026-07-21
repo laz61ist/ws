@@ -1,0 +1,11 @@
+{
+    "hafta": "2026-01-26/02-01",
+    "takvim": [
+        {"tarih": "2026-01-28", "saat": "08:30", "ne": "gezi", "cocuk": null}
+    ],
+    "senden_aksiyon": [
+        "Gezi için imza belgesini yarın imzalayıp gönderin."
+    ],
+    "para_talepleri": [],
+    "elenen_gurultu_sayisi": 3
+}

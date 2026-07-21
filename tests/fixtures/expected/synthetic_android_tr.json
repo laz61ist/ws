@@ -1,0 +1,15 @@
+{
+    "hafta": "2026-01-19/25",
+    "takvim": [
+        {"tarih": "2026-01-22", "saat": "09:00", "ne": "kıyafet serbest", "cocuk": null},
+        {"tarih": "2026-01-23", "saat": "18:00", "ne": "veli toplantısı", "cocuk": null}
+    ],
+    "senden_aksiyon": [
+        "Yarına imza formunu getirmeyi unutmayın, veli toplantısı kararı için gerekli.",
+        "Gezi ücreti 150₺ Cuma'ya kadar öğretmene getirin lütfen, gezi için gerekli."
+    ],
+    "para_talepleri": [
+        {"ne": "öğretmen hediyesi", "tutar": "100₺", "son": "2026-01-24"}
+    ],
+    "elenen_gurultu_sayisi": 15
+}
