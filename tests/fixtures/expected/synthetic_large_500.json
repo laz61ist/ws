@@ -1,0 +1,15 @@
+{
+    "hafta": "2026-02-02/08",
+    "takvim": [
+        {"tarih": "2026-02-04", "saat": "14:00", "ne": "veli toplantısı", "cocuk": null},
+        {"tarih": "2026-02-06", "saat": "10:00", "ne": "kermes", "cocuk": null}
+    ],
+    "senden_aksiyon": [
+        "Yarına beslenme formunu doldurup getirin lütfen.",
+        "Kimlik fotokopisini Cuma'ya kadar gönderin."
+    ],
+    "para_talepleri": [
+        {"ne": "aidat", "tutar": "50₺", "son": "2026-02-08"}
+    ],
+    "elenen_gurultu_sayisi": 495
+}

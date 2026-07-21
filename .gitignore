@@ -1,0 +1,25 @@
+/vendor/
+/node_modules/
+.env
+.env.local
+
+# KVKK: yüklenen ham .txt'ler asla repoya girmez, işlem sonrası silinir.
+/storage/uploads/*
+!/storage/uploads/.gitkeep
+
+# Composer offline autoload çıktısı yeniden üretilebilir.
+composer.lock
+
+# Büyük fixture deterministik üretilir (tests/tools/make_large_fixture.php);
+# test koşusunda otomatik oluşur, repoda tutulmaz.
+tests/fixtures/synthetic_large_500.txt
+
+# KVKK: GERÇEK ve anonimleştirilmiş export'lar + türetilmiş PII ASLA commit edilmez.
+#  raw_exports/         = senin koyduğun ham gerçek export'lar (README hariç ignore).
+#  tests/fixtures/real/ = anonimleştirilmiş türev fixture'lar (yine de ignore — savunma).
+raw_exports/*
+!raw_exports/README.md
+tests/fixtures/real/
+
+*.log
+.DS_Store
