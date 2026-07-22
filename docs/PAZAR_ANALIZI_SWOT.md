@@ -101,12 +101,53 @@ sürtünme noktası — yeniden gönderme + yardım metni gün 1'den gerekli.
 > (yayın platformu vb.) yorgunluğuna dair; okul/veli bağlamında spesifik
 > "bu işe neden para ödeyeyim" direncine dair doğrudan kaynak bulunamadı.
 
+### 2.6 B2B2C (okul/kurum kanalı) — ek araştırma, SONRADAN yapıldı
+
+İlk SWOT'ta "fırsat" olarak işaretlenen B2B2C kanalı ayrıca araştırıldı.
+Sonuç **beklenenin tersine çıktı**:
+
+- MEB, 2024'te öğretmen-veli WhatsApp iletişimini yasaklayıp e-okul'a
+  yönlendirmişti; **2025-2026 eğitim yılında bunu genişletip resmi kanalı
+  BiP tabanlı MEB uygulamalarına (Öğretmen Bilgi Servisi / Okul Veli
+  Asistanı) taşıdı** — devlet VE özel okulları kapsayan, **ücretsiz resmi
+  bir uygulama**. ([ahbmedya.com](https://ahbmedya.com/mebden-veli-ve-ogretmenlere-yeni-talimat-whatsapp-sinif-gruplari-1-eylulde-kapaniyor/),
+  [karabuksonhaber.com.tr](https://www.karabuksonhaber.com.tr/egitim/ogretmen-veli-iletisiminde-yeni-donem-sosyal-medya-yasaklandi-resm-platformlar-zorunlu-oldu-mp952-h649.html))
+- Bağımsız sendika kararları (Mil Maarif-Sen, Eğitim Gücü Sendikası — **her
+  yıl tekrarlanan**, 2022-2023'ten 2025-2026'ya kadar) öğretmenlere resmi
+  olmayan kanalları (WhatsApp dahil) reddetme hakkı tanıyor.
+  ([egitimgucusen.org.tr](https://egitimgucusen.org.tr/hukuk/2025-2026-resmi-olmayan-iletisim-kanallari-eylem-karari/))
+- Devlet okulunda satın alma **4734 sayılı Kamu İhale Kanunu**'na tabi;
+  özel okulda da KVKK veri-işleyen sözleşmesi gerekiyor — bireysel veli
+  satışına göre çok daha uzun bir karar döngüsü. ABD bağlamında bir kaynak,
+  okul müdürlerinin veli-iletişim yazılımı kararlarını yalnızca **%14**
+  oranında öne çıkardığını belirtiyor (komite-güdümlü, yavaş).
+  ([marketbrief.edweek.org](https://marketbrief.edweek.org/sales-marketing/how-much-power-do-school-principals-have-over-purchasing/2023/12))
+- Global rakipler (ParentSquare, Bloomz) okul-geneli paket satıyor ama bu,
+  WABridge'in niş "WhatsApp özeti" sorunundan çok daha geniş bir MIS ürünü;
+  Türkiye'de bu dar nişte yerli bir B2B2C oyuncu bulunamadı.
+- **Kritik çıkarım**: MEB'in çözümü tam olarak WABridge'in hedeflediği
+  sorunu (öğretmen-veli WhatsApp yükü) **ücretsiz** olarak ele alıyor — bu,
+  kurumsal ücretli satın alma güdüsünü YARATMIYOR, tersine ORTADAN
+  KALDIRIYOR. (Not: bu, öğretmenin katıldığı RESMİ grupları etkiler; velilerin
+  kendi aralarında sürdürdüğü GAYRİ-RESMİ "sınıf temsilcisi" grupları —
+  WABridge'in asıl hedef senaryosu — bu yasağın kapsamı dışında kalıp
+  devam edebilir, bu ayrım DOĞRULANMADI netlikte ama mantıken tutarlı.)
+
+**Öneri (araştırmadan, kanıta dayalı)**: B2B2C şu an **spekülatif — P1+ notu
+olarak kalmalı**, sıradaki öncelik OLMAMALI. Bunun yerine kod gerektirmeyen,
+düşük riskli bir alternatif: pazarlamayı hafifçe "sınıf temsilcisi/veli"
+segmentine konumlandırmak (bu kişiler zaten grupla özet paylaşma rolünü
+informal olarak üstleniyor — bkz. "sınıf annesi → sınıf temsilcisi" geçişi,
+[memurlar.net](https://www.memurlar.net/haber/1085740/sinif-annesine-yeni-cozum-sinif-temsilcisi.html)) —
+bu B2B2C değil, hedeflenmiş bir B2C büyüme denemesidir, ürün/kod değişikliği
+gerektirmez.
+
 ## 3. SWOT
 
 | | Olumlu | Olumsuz |
 |---|---|---|
 | **İç** | **Güçlü yönler**: gerçek şiddetli acı noktası hedefleniyor; KVKK-öncelikli mimari (ham veri hiç saklanmaz) rakiplerin argümanından güçlü; ücretsiz-4-digest test edilebilir giriş noktası; magic-link kanıtlı dönüşüm kazancı | **Zayıf yönler**: gizlilik/güven mesajı üründe yeterince görünür değildi (düzeltildi, bkz. §4); magic-link gecikme/spam UX hazırlığı yoktu (düzeltildi); iyzico/LLM canlı değil, gerçek export verisi yok (bilinen, belgeli) |
-| **Dış** | **Fırsatlar**: MEB'in "sadece admin mesaj atsın" trendi → okullar gürültü sorununu fark etmiş (B2B2C fırsatı); rakibin "ücretsiz olmadan çalışmıyor" şikayeti → ücretsiz-4-digest modelimiz farklılaştırıcı | **Tehditler**: AI güven açığı çok büyük (%81-90 güvensiz); rakipler zaten var (ChatRecap, GistGem, ThreadRecap); TR'de abonelik yorgunluğu → churn riski |
+| **Dış** | **Fırsatlar**: rakibin "ücretsiz olmadan çalışmıyor" şikayeti → ücretsiz-4-digest modelimiz farklılaştırıcı; "sınıf temsilcisi" rolünün dirençli/kalıcı olması → hedeflenmiş B2C büyüme (kod gerektirmez) | **Tehditler**: AI güven açığı çok büyük (%81-90 güvensiz); rakipler zaten var (ChatRecap, GistGem, ThreadRecap); TR'de abonelik yorgunluğu → churn riski; **MEB'in ücretsiz resmi kanala (BiP/OVA) geçişi** — öğretmen-katılımlı resmi grupların WhatsApp'tan çekilmesi, B2B2C'yi motive etmek yerine ortadan kaldırıyor (bkz. §2.6) |
 
 ## 4. SWOT'tan çıkan eksik listesi ve durumu
 
@@ -117,8 +158,10 @@ sürtünme noktası — yeniden gönderme + yardım metni gün 1'den gerekli.
 | 3 | iyzico canlı entegrasyon | ⚠️ **Kod-dışı ön koşula bağlı** (şahıs şirketi/sandbox key) — bilinçli, belgeli blok, bkz. `docs/PRODUCT_v1_DESIGN.md` |
 | 4 | LLM sınıflandırıcı canlı doğrulama | ⚠️ **API key'e bağlı** — bilinçli, belgeli blok |
 | 5 | Gerçek anonimleştirilmiş export verisi | ⚠️ **Kullanıcı girdisine bağlı** — `raw_exports/` hâlâ boş, bkz. `docs/P0_REAL_DATA_VALIDATION.md` süreci |
-| 6 | B2B2C (okul/organizatör) kanalı | 📋 **P1+ fırsatı** — SWOT bunu güçlendirdi (MEB trendi), henüz kapsam dışı |
+| 6 | B2B2C (okul/organizatör) kanalı | ❌ **Araştırıldıktan sonra ELENDİ** (bkz. §2.6) — MEB'in ücretsiz resmi çözümü (BiP/OVA) kurumsal satın alma güdüsünü ortadan kaldırıyor; ihale/KVKK süreci bireysel satışa göre çok daha ağır. Kod/tasarım yatırımı YAPILMADI. Alternatif: "sınıf temsilcisi" segmentine hafif pazarlama konumlandırması (kod gerektirmez) |
 
 **Genel karar**: SWOT'tan çıkan, KOD İLE kapatılabilir iki somut boşluk (1 ve 2)
 kapatıldı ve doğrulandı. Kalan maddeler (3-5) zaten bilinen, dürüstçe
-belgelenmiş dış-bağımlı bloklardır — kodla aşılamaz. Madde 6 gelecek faz notu.
+belgelenmiş dış-bağımlı bloklardır — kodla aşılamaz. Madde 6 (B2B2C) ayrıca
+araştırılıp kanıta dayalı olarak **elendi** — "tam yetki" ile bile kanıta
+aykırı bir iş kolu zorlanmadı; bu da bir sonuçtur, başarısızlık değil.
