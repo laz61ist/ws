@@ -73,8 +73,15 @@ değil, bir mimari karar olarak ele alıyoruz:
 
 - **Veliler**: Okul, kreş, spor kulübü, apartman gibi kalabalık gruplarda
   önemli bilgiyi kaçırmak istemeyen herkes.
+- **Sınıf temsilcileri** (asıl odak kitlemiz): Grubun "koordinatör" rolünü
+  gönüllü üstlenen, haftalık özeti diğer velilerle paylaşan kişi. Bu rol
+  resmî düzenlemelere rağmen (bkz. "sınıf annesi → sınıf temsilcisi" geçişi)
+  dirençli ve kalıcıdır — WABridge, bu kişinin zaten yaptığı işi (gruptaki
+  kaosu özetleyip paylaşmak) dakikalar yerine saniyeler alan bir işe çevirir.
+  Kurumsal bir onay veya satın alma süreci gerektirmez; tek bir veli hesap
+  açıp özeti kendi inisiyatifiyle paylaşabilir.
 - **Grup yöneticileri**: Grubunda paylaştığı bilginin ulaştığından emin olmak
-  isteyen öğretmenler, temsilciler, yöneticiler.
+  isteyen öğretmenler, yöneticiler.
 
 ## Fiyatlandırma yaklaşımı
 

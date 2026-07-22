@@ -157,7 +157,7 @@ gerektirmez.
 | 2 | Magic-link gecikme/spam'e karşı UX yok | ✅ **Kapatıldı** — `login.php`'ye spam uyarısı + "Bağlantıyı tekrar gönder" butonu eklendi, e2e doğrulandı |
 | 3 | iyzico canlı entegrasyon | ⚠️ **Kod-dışı ön koşula bağlı** (şahıs şirketi/sandbox key) — bilinçli, belgeli blok, bkz. `docs/PRODUCT_v1_DESIGN.md` |
 | 4 | LLM sınıflandırıcı canlı doğrulama | ⚠️ **API key'e bağlı** — bilinçli, belgeli blok |
-| 5 | Gerçek anonimleştirilmiş export verisi | ⚠️ **Kullanıcı girdisine bağlı** — `raw_exports/` hâlâ boş, bkz. `docs/P0_REAL_DATA_VALIDATION.md` süreci |
+| 5 | Gerçek anonimleştirilmiş export verisi | ⚠️ **Kullanıcı girdisine bağlı** — `raw_exports/` hâlâ boş, süreç `raw_exports/README.md`'de ve `scripts/anonymize.php`'de hazır (bkz. altta) |
 | 6 | B2B2C (okul/organizatör) kanalı | ❌ **Araştırıldıktan sonra ELENDİ** (bkz. §2.6) — MEB'in ücretsiz resmi çözümü (BiP/OVA) kurumsal satın alma güdüsünü ortadan kaldırıyor; ihale/KVKK süreci bireysel satışa göre çok daha ağır. Kod/tasarım yatırımı YAPILMADI. Alternatif: "sınıf temsilcisi" segmentine hafif pazarlama konumlandırması (kod gerektirmez) |
 
 **Genel karar**: SWOT'tan çıkan, KOD İLE kapatılabilir iki somut boşluk (1 ve 2)
