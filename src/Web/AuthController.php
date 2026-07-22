@@ -8,6 +8,7 @@ use WABridge\Auth\AuthSession;
 use WABridge\Auth\MagicLinkService;
 use WABridge\Storage\Database;
 use WABridge\Support\Csrf;
+use WABridge\Support\Env;
 
 /**
  * Parolasız giriş akışı: e-posta iste -> magic link -> tüket -> session aç.
@@ -41,12 +42,19 @@ final class AuthController
         } catch (\InvalidArgumentException $e) {
             return ['ok' => false, 'error' => $e->getMessage()];
         } catch (\Throwable $e) {
-            // Kullanıcıya iç hata detayı sızdırılmaz (güvenlik) ama sunucu
-            // log'una (Render "Logs" sekmesinde görünür) yazılır — aksi halde
-            // gerçek sebep (yanlış API key, sağlayıcı reddi vb.) hiçbir yerde
-            // görünmez, teşhis imkansızlaşır.
+            // Kullanıcıya iç hata detayı normalde sızdırılmaz (güvenlik) ama
+            // sunucu log'una (Render "Logs" sekmesinde görünür) yazılır — aksi
+            // halde gerçek sebep (yanlış API key, sağlayıcı reddi vb.) hiçbir
+            // yerde görünmez, teşhis imkansızlaşır.
             error_log('[WABridge] Magic-link gönderilemedi: ' . $e::class . ': ' . $e->getMessage());
-            return ['ok' => false, 'error' => 'Bağlantı gönderilemedi. Lütfen daha sonra tekrar deneyin.'];
+            $message = 'Bağlantı gönderilemedi. Lütfen daha sonra tekrar deneyin.';
+            // Geçici teşhis anahtarı: sadece sahibi Render'da bilerek
+            // WABRIDGE_DEBUG_MAIL_ERRORS=1 ayarladığında gerçek sebep ekrana da
+            // yansır (varsayılan kapalı — üretimde detay sızdırılmaz).
+            if (Env::get('WABRIDGE_DEBUG_MAIL_ERRORS') === '1') {
+                $message .= ' [DEBUG] ' . $e->getMessage();
+            }
+            return ['ok' => false, 'error' => $message];
         }
 
         return ['ok' => true, 'error' => null];

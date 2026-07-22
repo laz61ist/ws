@@ -34,6 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log('[WABridge] Magic-link kurulum hatası: ' . $e::class . ': ' . $e->getMessage());
         $sent = false;
         $error = 'Bağlantı gönderilemedi. Lütfen daha sonra tekrar deneyin.';
+        if (Env::get('WABRIDGE_DEBUG_MAIL_ERRORS') === '1') {
+            $error .= ' [DEBUG] ' . $e->getMessage();
+        }
     }
 }
 
