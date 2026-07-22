@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use WABridge\Auth\AuthSession;
+use WABridge\Support\App;
 use WABridge\Support\Csrf;
 use WABridge\Support\Env;
 use WABridge\Web\DigestController;
@@ -10,13 +12,16 @@ require dirname(__DIR__) . '/src/autoload.php';
 
 Env::load(dirname(__DIR__) . '/.env');
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
+if (!AuthSession::isLoggedIn()) {
+    header('Location: login.php');
+    exit;
 }
+
+$groupId = AuthSession::groupId();
 
 $result = ['ok' => false, 'error' => null, 'digest' => null];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $result = (new DigestController())->handleUpload($_POST, $_FILES);
+    $result = (new DigestController(App::digestRepository(), App::entitlement()))->handleUpload($_POST, $_FILES, $groupId);
 }
 
 $csrf = Csrf::token();
@@ -58,6 +63,7 @@ $digest = $result['digest'];
     </style>
 </head>
 <body>
+    <nav class="muted"><a href="gecmis.php">Geçmiş digest'lerim</a></nav>
     <h1>WABridge</h1>
     <p class="muted">WhatsApp veli grubu export .txt'sini yükle → haftalık lojistik digest'i al.
     Ham sohbet işlenir, digest üretilir ve dosya <strong>anında silinir</strong> (KVKK).</p>
@@ -75,8 +81,9 @@ $digest = $result['digest'];
             </label>
             <label class="consent">
                 <input type="checkbox" name="kvkk_consent" value="1" required>
-                Sohbette 3. kişilerin verisi olabileceğini biliyorum; dosyanın işlenip
-                <strong>hemen silinmesine</strong> ve kalıcı olarak saklanmamasına onay veriyorum.
+                Sohbette 3. kişilerin verisi olabileceğini biliyorum; ham dosyanın işlenip
+                <strong>hemen silinmesine</strong> onay veriyorum. Oluşan digest özeti (isim
+                geçirebilir) hesabımda saklanır; <a href="gecmis.php">dilediğim an silebilirim</a>.
             </label>
             <p><button type="submit">Digest oluştur</button></p>
         </form>

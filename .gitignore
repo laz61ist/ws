@@ -7,6 +7,11 @@
 /storage/uploads/*
 !/storage/uploads/.gitkeep
 
+# KVKK: SQLite veritabanı gerçek kullanıcı verisi (e-posta, digest özeti) içerir,
+# asla commit edilmez. storage/migrations/*.sql şema dosyalarıdır, bunlar İZLENİR.
+/storage/*.sqlite*
+/storage/mail.log
+
 # Composer offline autoload çıktısı yeniden üretilebilir.
 composer.lock
 
