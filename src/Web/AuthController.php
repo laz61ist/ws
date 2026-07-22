@@ -41,6 +41,11 @@ final class AuthController
         } catch (\InvalidArgumentException $e) {
             return ['ok' => false, 'error' => $e->getMessage()];
         } catch (\Throwable $e) {
+            // Kullanıcıya iç hata detayı sızdırılmaz (güvenlik) ama sunucu
+            // log'una (Render "Logs" sekmesinde görünür) yazılır — aksi halde
+            // gerçek sebep (yanlış API key, sağlayıcı reddi vb.) hiçbir yerde
+            // görünmez, teşhis imkansızlaşır.
+            error_log('[WABridge] Magic-link gönderilemedi: ' . $e::class . ': ' . $e->getMessage());
             return ['ok' => false, 'error' => 'Bağlantı gönderilemedi. Lütfen daha sonra tekrar deneyin.'];
         }
 
