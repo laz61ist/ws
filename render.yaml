@@ -1,0 +1,23 @@
+# Render "Blueprint" tanımı — opsiyonel kolaylık. Manuel "New Web Service"
+# akışı da aynı sonucu verir (bkz. dashboard adımları).
+services:
+  - type: web
+    name: wabridge
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    disk:
+      name: wabridge-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: WABRIDGE_CLASSIFIER
+        value: heuristic
+      - key: WABRIDGE_DB_PATH
+        value: /var/data/wabridge.sqlite
+      - key: WABRIDGE_MAIL_DRIVER
+        value: log
+      - key: WABRIDGE_FREE_DIGEST_LIMIT
+        value: "4"
+      - key: WABRIDGE_MAGIC_LINK_TTL_MIN
+        value: "20"
