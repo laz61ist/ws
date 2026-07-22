@@ -52,7 +52,19 @@ final class CurlMailer implements MailerInterface
         curl_close($ch);
 
         if ($response === false || $status >= 300) {
-            throw new \RuntimeException('E-posta gönderilemedi: ' . ($err !== '' ? $err : 'HTTP ' . $status));
+            // Resend (ve çoğu transactional API) hata gövdesinde {"name","message"}
+            // döner — bunu atlayıp sadece "HTTP 401" loglamak gerçek sebebi
+            // (yanlış key, sandbox domain kısıtı vb.) teşhis edilemez kılıyordu.
+            $detail = '';
+            if (is_string($response) && $response !== '') {
+                $decoded = json_decode($response, true);
+                $detail = is_array($decoded) && isset($decoded['message'])
+                    ? ' [' . ($decoded['name'] ?? 'error') . '] ' . $decoded['message']
+                    : ' ' . substr($response, 0, 500);
+            }
+            throw new \RuntimeException(
+                'E-posta gönderilemedi: ' . ($err !== '' ? $err : 'HTTP ' . $status) . $detail
+            );
         }
     }
 }

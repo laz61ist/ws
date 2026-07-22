@@ -22,10 +22,19 @@ $error = null;
 $submittedEmail = is_string($_POST['email'] ?? null) ? trim($_POST['email']) : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller = new AuthController(App::magicLinkService(), App::database());
-    $result = $controller->requestLink($_POST);
-    $sent = $result['ok'];
-    $error = $result['error'];
+    try {
+        $controller = new AuthController(App::magicLinkService(), App::database());
+        $result = $controller->requestLink($_POST);
+        $sent = $result['ok'];
+        $error = $result['error'];
+    } catch (\Throwable $e) {
+        // App::magicLinkService() içindeki CurlMailer::__construct() (ör. eksik
+        // API key), AuthController'ın kendi try/catch'ine hiç girmeden burada
+        // fırlayabilir — yakalanmazsa ham 500/fatal + hiç log olmazdı.
+        error_log('[WABridge] Magic-link kurulum hatası: ' . $e::class . ': ' . $e->getMessage());
+        $sent = false;
+        $error = 'Bağlantı gönderilemedi. Lütfen daha sonra tekrar deneyin.';
+    }
 }
 
 $csrf = Csrf::token();
