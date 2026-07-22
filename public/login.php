@@ -19,6 +19,7 @@ if (AuthSession::isLoggedIn()) {
 
 $sent = false;
 $error = null;
+$submittedEmail = is_string($_POST['email'] ?? null) ? trim($_POST['email']) : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $controller = new AuthController(App::magicLinkService(), App::database());
@@ -52,6 +53,12 @@ function e(string $s): string
                  padding: .7rem 1.2rem; font-size: 1rem; cursor: pointer; width: 100%; }
         button:hover { background: #0e6f63; }
         .muted { color: #8889; font-size: .85rem; }
+        .privacy { border-color: #1288; }
+        .privacy ul { margin: .4rem 0 0; padding-left: 1.1rem; font-size: .85rem; }
+        .privacy li { margin: .2rem 0; }
+        button.resend-btn { background: transparent; color: #128c7e; border: 1px solid #128c7e;
+                             width: auto; padding: .5rem 1rem; margin-top: .5rem; }
+        button.resend-btn:hover { background: #128c7e1a; }
     </style>
 </head>
 <body>
@@ -64,16 +71,33 @@ function e(string $s): string
     <?php if ($sent): ?>
         <div class="card">
             <p>E-postanı kontrol et — sana bir giriş bağlantısı gönderdik (20 dakika geçerli).</p>
+            <p class="muted">Birkaç dakika içinde gelmezse önce <strong>spam/gereksiz</strong> klasörünü kontrol et.
+            Hâlâ yoksa aşağıdan tekrar gönderebilirsin.</p>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="<?= e($csrf) ?>">
+                <input type="hidden" name="email" value="<?= e($submittedEmail) ?>">
+                <button type="submit" class="resend-btn">Bağlantıyı tekrar gönder</button>
+            </form>
         </div>
     <?php else: ?>
         <form class="card" method="post">
             <input type="hidden" name="csrf_token" value="<?= e($csrf) ?>">
             <label for="email">E-posta</label>
-            <input type="email" id="email" name="email" required autofocus placeholder="veli@ornek.com">
+            <input type="email" id="email" name="email" required autofocus placeholder="veli@ornek.com" value="<?= e($submittedEmail) ?>">
             <button type="submit">Bağlantı gönder</button>
         </form>
     <?php endif; ?>
 
     <p class="muted">Parola yok — e-postana gönderdiğimiz bağlantıyla giriş yaparsın.</p>
+
+    <div class="card privacy">
+        <p><strong>🔒 Gizliliğin nasıl korunuyor</strong></p>
+        <ul>
+            <li>Yüklediğin ham WhatsApp sohbeti işlenir ve <strong>anında silinir</strong> — hiçbir zaman kalıcı depoya yazılmaz.</li>
+            <li>Yalnızca ürettiğimiz özet (digest) hesabında saklanır; bunu <strong>senden başka kimse göremez</strong>.</li>
+            <li>Dilediğin an hesabını ve tüm digest'lerini <strong>kalıcı olarak silebilirsin</strong>.</li>
+            <li>Sohbet içeriğin WhatsApp'ın kendi API'sine veya üçüncü bir servise <strong>asla iletilmez</strong>.</li>
+        </ul>
+    </div>
 </body>
 </html>
