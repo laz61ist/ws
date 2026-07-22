@@ -46,6 +46,18 @@ final class Anonymizer
      */
     public function anonymize(string $rawContent): array
     {
+        if (!mb_check_encoding($rawContent, 'UTF-8')) {
+            // Bilinçli fail-loud: ChatParser::normalize() geçersiz UTF-8'de
+            // preg_replace('/u') null döndürüp SESSİZCE tüm içeriği boşaltır.
+            // Anonimleştirme sonrası ham dosya SİLİNEBİLECEĞİ için (KVKK akışı)
+            // bu durumda veri geri getirilemez kaybolur — o yüzden burada
+            // erken ve gürültülü şekilde durur, boş çıktı asla üretmez.
+            throw new \RuntimeException(
+                'Girdi geçerli UTF-8 değil — anonimleştirme güvenli şekilde yapılamaz '
+                . '(sessiz veri kaybı riski). Ham dosyanın kodlamasını elle kontrol et.'
+            );
+        }
+
         $messages = $this->parser->parse($rawContent);
         $pseudonyms = $this->buildPseudonymMap($messages);
 
@@ -95,28 +107,62 @@ final class Anonymizer
         return $map;
     }
 
+    /**
+     * Ayraç sınıfı: boşluk/nokta/tire/parantez — HERHANGİ birleşimde, sıfır
+     * veya daha fazla. Parantezleri de "sadece bir başka ayraç karakteri"
+     * olarak ele almak (yapısal konumunu modellemeye çalışmak yerine),
+     * "(532)", "0(532)", "+90(532)" gibi TÜM parantez yerleşimi varyantlarını
+     * tek bir basit kuralla kapsar (bkz. adversarial denetim bulguları).
+     */
+    private const SEP = '[\s.\-()]*';
+
     private function maskPii(string $body): string
     {
         $masked = $body;
 
-        // IBAN (TR + 24 hane, boşluklu/boşluksuz) — telefon/TCKN'den ÖNCE
-        // maskelenmeli (yoksa içindeki rakam dizileri diğer pattern'lere de takılabilir).
-        $masked = (string) preg_replace('/\bTR\d{2}(?:[ ]?\d{4}){5}[ ]?\d{2}\b/u', self::PLACEHOLDER_IBAN, $masked);
+        // IBAN (TR + 24 hane). \d{11}'den ÖNCE ve telefon'dan ÖNCE
+        // maskelenmeli (yoksa içindeki rakam dizileri diğer pattern'lere
+        // yanlış eşleşebilir). \b YERİNE (?<!\d)/(?!\d) kullanılıyor — \b,
+        // rakam ile harf arasında (ikisi de \w) TETİKLENMEZ, bu yüzden
+        // "...841326TL" gibi harfe bitişik yazımlarda \b sessizce başarısız
+        // olurdu (adversarial denetimde doğrulandı).
+        $masked = (string) preg_replace(
+            '/(?<!\d)TR' . self::SEP . '(?:\d' . self::SEP . '){24}(?!\d)/u',
+            self::PLACEHOLDER_IBAN,
+            $masked,
+        );
 
         // E-posta.
         $masked = (string) preg_replace('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/u', self::PLACEHOLDER_EMAIL, $masked);
 
-        // TR cep telefonu: +90/0 önekli veya önek olmadan 5xx xxx xx xx
-        // (boşluk/nokta/tire ayraçlı varyantlar dahil).
+        // TR cep telefonu (5xx) ve sabit hat (il kodu 2xx/3xx/4xx) — TEK bir
+        // permissif ayraç sınıfıyla (boşluk/nokta/tire/parantez, herhangi
+        // sırada) +90/0 önekli/öneksiz TÜM gerçekçi yazım biçimlerini kapsar.
+        // (?<!\d)/(?!\d) kullanımı "+90" bitişik yazımda \b'nin iki
+        // non-word-karakter arasında (boşluk/+ gibi) tetiklenmeme sorununu
+        // da çözer (adversarial denetimde doğrulanan kök neden).
+        $prefix = '(?:\+?90' . self::SEP . ')?' . self::SEP . '0?' . self::SEP;
         $masked = (string) preg_replace(
-            '/\b(?:\+90[ ]?|0)?5\d{2}[ .\-]?\d{3}[ .\-]?\d{2}[ .\-]?\d{2}\b/u',
+            '/(?<!\d)' . $prefix . '5\d{2}' . self::SEP . '\d{3}' . self::SEP . '\d{2}' . self::SEP . '\d{2}(?!\d)/u',
+            self::PLACEHOLDER_PHONE,
+            $masked,
+        );
+        $masked = (string) preg_replace(
+            '/(?<!\d)' . $prefix . '[2-4]\d{2}' . self::SEP . '\d{3}' . self::SEP . '\d{2}' . self::SEP . '\d{2}(?!\d)/u',
             self::PLACEHOLDER_PHONE,
             $masked,
         );
 
-        // TCKN: bağımsız 11 haneli sayı (yukarıdaki maskelemelerden sonra
-        // kalan tek bariz 11-hane deseni budur).
-        $masked = (string) preg_replace('/\b\d{11}\b/u', self::PLACEHOLDER_TCKN, $masked);
+        // TCKN: bağımsız 11 haneli sayı, ayraçlı (tireli/noktalı/boşluklu)
+        // yazımlar dahil, harfe bitişik olsa bile (yukarıdaki (?<!\d)/(?!\d)
+        // gerekçesiyle aynı). Diğer maskelemelerden SONRA çalışır ki
+        // IBAN/telefon içindeki rakam dizilerini yanlışlıkla yutmasın.
+        $digitSep = '[\s.\-]?';
+        $masked = (string) preg_replace(
+            '/(?<!\d)' . str_repeat('\d' . $digitSep, 10) . '\d(?!\d)/u',
+            self::PLACEHOLDER_TCKN,
+            $masked,
+        );
 
         return $masked;
     }
